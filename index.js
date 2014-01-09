@@ -78,7 +78,7 @@ Html2js.prototype.add = function (file) {
     });
 
     if(!file.path) {
-        return false;
+        throw new Error('Could not reading the stream');
     }
 
     var filePath = self.generatePath(file.path);
