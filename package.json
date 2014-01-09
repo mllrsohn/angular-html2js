@@ -1,0 +1,19 @@
+{
+  "name": "angular-html2js",
+  "version": "0.0.1",
+  "description": "A standalone tool to stream angular templates and building the $templateCache",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "event-stream": "~3.0.20",
+    "concat-stream": "~1.4.1"
+  },
+  "devDependencies": {
+    "html-minifier": "~0.5.4",
+    "tape": "~2.3.2"
+  }
+}
