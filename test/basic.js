@@ -79,6 +79,30 @@ test('transform', function (t) {
 });
 
 
+test('standalone', function (t) {
+    t.plan(1);
+    var html2js = Html2js({module: 'standalone', standalone: true});
+    html2js.add(f('fixtures/two.html'));
+    html2js.bundle(function (actual) {
+      t.equal(actual, e('expected/standalone.js'));
+    });
+});
+
+
+// This needs to be implemented
+//
+// test('empty_file', function (t) {
+//     t.plan(1);
+//     var html2js = Html2js({
+//       module: 'empty_file'
+//     });
+//     html2js.add(f('fixtures/empty.html'));
+//     html2js.bundle(function (actual) {
+//       t.equal(actual, e('expected/empty_file.js'));
+//     });
+// });
+
+
 
 /*
 

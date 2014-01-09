@@ -13,13 +13,4 @@ angular.module('custom_url').run(['$templateCache', function($templateCache) {
     "</script>\n"
   );
 
-
-  $templateCache.put('test/fixtures/two/two',
-    "<h2>Two</h2>\n" +
-    "\n" +
-    "<!-- Comment for two -->\n" +
-    "\n" +
-    "<textarea readonly=\"readonly\">We are two.</textarea>\n"
-  );
-
 }]);

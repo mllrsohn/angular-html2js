@@ -42,43 +42,56 @@ function Html2js (opts) {
         });
 
     rs.pipe(this.output, { end: false });
-};
 
 
-Html2js.prototype.add = function (file) {
-    var _path = this.opts.prefix,
-        self = this;
+    this.generatePath = function (filePath) {
+        var _path = opts.prefix;
 
-    file = (!isStream(file) ? fs.createReadStream(file) : file),
+        // Force trailing slash
+        if (_path.length) {
+            _path = _path.replace(/\/?$/, '/');
+        }
 
-    file.on('error', function() {
-        throw new Error('Could not read file or stream: ' + file.path);
-    });
+        filePath = path.relative(process.cwd(), filePath);
+        _path += Url.format(Url.parse(filePath.replace(/\\/g, '/')));
 
-    // Force trailing slash
-    if (_path.length) {
-        _path = _path.replace(/\/?$/, '/');
-    }
-    var filePath = path.relative(process.cwd(), file.path);
-    _path += Url.format(Url.parse(filePath.replace(/\\/g, '/')));
+        return _path;
+    };
 
-    var compileTemplate = function (content, path) {
+    this.compileTemplate = function (content, path) {
         //borrowed from ericclemmons/grunt-angular-templates
         content = content.split(/^/gm).map(function(line) {
             return JSON.stringify(line);
         }).join(' +\n    ') || '""';
 
-        return "\n  $templateCache.put('" + _path + "',\n    " + content + "\n  );\n";
+        return "\n  $templateCache.put('" + path + "',\n    " + content + "\n  );\n";
     };
+}
 
+
+Html2js.prototype.add = function (file) {
+    var self = this;
+
+    file = (!isStream(file) ? fs.createReadStream(file) : file),
+    file.on('error', function() {
+        throw new Error('Could not read file or stream: ' + file.path);
+    });
+
+    if(!file.path) {
+        return false;
+    }
+
+    var filePath = self.generatePath(file.path);
     file.pipe(es.through(function write(file) {
-        var $this = this;
+        var $this = this,
+            html = file.toString();
+
         if (typeof self.opts.transform === 'function') {
-            self.opts.transform(file.toString(), function(content) {
-                $this.queue(compileTemplate(content, path));
+            self.opts.transform(html, function(transformedContent) {
+                $this.queue(self.compileTemplate(transformedContent, filePath));
             });
         } else {
-            this.queue(compileTemplate(file.toString(), path));
+            this.queue(self.compileTemplate(html, filePath));
         }
     })).pipe(this.output);
     return this;
