@@ -23,12 +23,13 @@ module.exports = function (opts, xopts) {
 
 function Html2js (opts) {
     if (opts.module === undefined) opts.module = 'templates';
+    if (opts.angular === undefined) opts.angular = 'angular';
     if (opts.standalone === undefined) opts.standalone = false;
     if (opts.prefix === undefined) opts.prefix = '';
     this.opts = opts;
 
     var rs = new Readable();
-    rs.push("angular.module('" + opts.module + "'" + (opts.standalone ? ", []" : "") + ").run(['$templateCache', function($templateCache) {");
+    rs.push(opts.angular+".module('" + opts.module + "'" + (opts.standalone ? ", []" : "") + ").run(['$templateCache', function($templateCache) {");
     rs.push("\n  'use strict';\n");
     rs.push(null);
 
@@ -56,7 +57,7 @@ Html2js.prototype.add = function (file) {
 
     // Force trailing slash
     if (_path.length) {
-        _path = path.replace(/\/?$/, '/');
+        _path = _path.replace(/\/?$/, '/');
     }
     var filePath = path.relative(process.cwd(), file.path);
     _path += Url.format(Url.parse(filePath.replace(/\\/g, '/')));

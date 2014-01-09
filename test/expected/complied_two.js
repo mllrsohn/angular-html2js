@@ -1,6 +1,3 @@
-angular.module('templates').run(['$templateCache', function($templateCache) {
-  'use strict';
-
   $templateCache.put('test/fixtures/two.html',
     "<h2>Two</h2>\n" +
     "\n" +
@@ -8,5 +5,3 @@ angular.module('templates').run(['$templateCache', function($templateCache) {
     "\n" +
     "<textarea readonly=\"readonly\">We are two.</textarea>\n"
   );
-
-}]);

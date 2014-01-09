@@ -13,13 +13,4 @@ angular.module('custom_prefix').run(['$templateCache', function($templateCache) 
     "</script>\n"
   );
 
-
-  $templateCache.put('/static/test/fixtures/two/two.html',
-    "<h2>Two</h2>\n" +
-    "\n" +
-    "<!-- Comment for two -->\n" +
-    "\n" +
-    "<textarea readonly=\"readonly\">We are two.</textarea>\n"
-  );
-
 }]);

@@ -1,6 +1,3 @@
-myAngular.module('custom_angular').run(['$templateCache', function($templateCache) {
-  'use strict';
-
   $templateCache.put('test/fixtures/one.html',
     "<h1>One</h1>\n" +
     "\n" +
@@ -12,5 +9,3 @@ myAngular.module('custom_angular').run(['$templateCache', function($templateCach
     "  var foo = 'bar';\n" +
     "</script>\n"
   );
-
-}]);
