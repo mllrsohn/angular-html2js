@@ -78,7 +78,8 @@ Defaults to `''`
 
 ### transform
 
-> Callback to modify a single entry. Requires a callback. Example:
+> Callback to modify a single entry. Requires a callback. Example
+
 ```js
 transform: function(html, callback) {
   callback(html.toUpperCase());
