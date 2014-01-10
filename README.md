@@ -1,4 +1,4 @@
-angular-html2js
+angular-html2js [![Build Status][travis-image]][travis-url]
 =======
 
 > Standalone script to turn Angular template into js that supports streams.
@@ -61,3 +61,6 @@ ToDo
 - Publish on npm
 - Implement  
 - Cleanup
+
+[travis-url]: http://travis-ci.org/mllrsohn/angular-html2js
+[travis-image]: https://secure.travis-ci.org/mllrsohn/angular-html2js.png?branch=master
