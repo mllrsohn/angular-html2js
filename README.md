@@ -52,14 +52,46 @@ Html2js({
 
 ```
 
-Options
------
+## Options
+
+### angular
+
+> Global namespace for Angular.
+
+If you use `angular.noConflict()`, then set this value to whatever you
+re-assign angular to.  Otherwise, it defaults to `angular`.
+
+### prefix
+
+> `String` to prefix template URLs with.
+Defaults to `''`
+
+### standalone
+
+> Boolean indicated if the templates are part of an existing module or a standalone.
+Defaults to `false`.
+
+### replace
+
+> `String` will be replaced with `''`
+Defaults to `''`
+
+### transform
+
+> Callback to modify a single entry. Requires a callback. Example:
+```js
+transform: function(html, callback) {
+  callback(html.toUpperCase());
+}
+```
+
 
 
 ToDo
 -----
 - Publish on npm
-- Implement  
+- Impement empty file
+- Impement empty result if there is no file
 - Cleanup
 
 [travis-url]: http://travis-ci.org/mllrsohn/angular-html2js
