@@ -15,20 +15,21 @@ test('event_leak', function (t) {
     var html2js = Html2js({
         module: 'event_leak'
     });
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.add(f('fixtures/two.html'));
-    html2js.bundle();
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.add('./test/fixtures/two.html');
+    html2js.bundle(function (actual) {
+        var matches = actual.match(/test\/fixtures\/two.html/g);
+        t.equal(matches.length, 13);
+    });
 });

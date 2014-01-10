@@ -4,6 +4,7 @@ var Url = require('url');
 var Readable = require('stream').Readable;
 var concat = require('concat-stream');
 var path = require('path');
+var async = require('async');
 
 module.exports = function (opts, xopts) {
     //borrowed from substack/node-browserify
@@ -22,11 +23,14 @@ module.exports = function (opts, xopts) {
 }
 
 function Html2js (opts) {
+    var self = this;
     if (opts.module === undefined) opts.module = 'templates';
     if (opts.angular === undefined) opts.angular = 'angular';
     if (opts.standalone === undefined) opts.standalone = false;
     if (opts.prefix === undefined) opts.prefix = '';
+    if (opts.replace === undefined) opts.replace = '';
     this.opts = opts;
+    this.counter = 0;
 
     var rs = new Readable();
     rs.push(opts.angular+".module('" + opts.module + "'" + (opts.standalone ? ", []" : "") + ").run(['$templateCache', function($templateCache) {");
@@ -52,6 +56,10 @@ function Html2js (opts) {
             _path = _path.replace(/\/?$/, '/');
         }
 
+        if(opts.replace) {
+            filePath = filePath.split(opts.replace).join('');
+        }
+
         filePath = path.relative(process.cwd(), filePath);
         _path += Url.format(Url.parse(filePath.replace(/\\/g, '/')));
 
@@ -66,11 +74,35 @@ function Html2js (opts) {
 
         return "\n  $templateCache.put('" + path + "',\n    " + content + "\n  );\n";
     };
+
+    this.queue = async.queue(function (data, callback) {
+        var stream = es.through(function write(file) {
+            var $this = this,
+                html = file.toString();
+
+            if (typeof self.opts.transform === 'function') {
+                self.opts.transform(html, function(transformedContent) {
+                    $this.queue(self.compileTemplate(transformedContent, data.filePath));
+                });
+            } else {
+                this.queue(self.compileTemplate(html, data.filePath));
+            }
+        });
+
+        data.file.on('end', callback);
+        data.file.pipe(stream).pipe(self.output, { end: false });
+    }, 10);
+
+    this.queue.drain = function() {
+        self.output.end();
+    };
+
 }
 
 
 Html2js.prototype.add = function (file) {
     var self = this;
+    this.counter++;
 
     file = (!isStream(file) ? fs.createReadStream(file) : file),
     file.on('error', function() {
@@ -82,18 +114,11 @@ Html2js.prototype.add = function (file) {
     }
 
     var filePath = self.generatePath(file.path);
-    file.pipe(es.through(function write(file) {
-        var $this = this,
-            html = file.toString();
+    this.queue.push({
+        file: file,
+        filePath: filePath
+    });
 
-        if (typeof self.opts.transform === 'function') {
-            self.opts.transform(html, function(transformedContent) {
-                $this.queue(self.compileTemplate(transformedContent, filePath));
-            });
-        } else {
-            this.queue(self.compileTemplate(html, filePath));
-        }
-    })).pipe(this.output);
     return this;
 }
 
