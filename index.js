@@ -89,9 +89,10 @@ function Html2js (opts) {
             }
         });
 
-        data.file.on('end', callback);
-        data.file.pipe(stream).pipe(self.output, { end: false });
-    }, 10);
+        stream.on('end', callback);
+        data.file.pipe(stream);
+        stream.pipe(self.output, {end:false});
+    }, 5);
 
     this.queue.drain = function() {
         self.output.end();
