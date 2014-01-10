@@ -40,10 +40,15 @@ var html2js = Html2js({ module: 'myTempaltes'})
 
 // or use the html-minifier to transform your stuff
 var minify = require('html-minifier').minify;
-var html2js = Html2js({ module: 'myTempaltes'})
-gulp.src(['path/to/templates/**/*.html'])
-.pipe(html2js.add)
-.pipe(concat('myTemplates.js')).pipe(gulp.dest('./build'));
+Html2js({
+    entries: ['./test.html', './test2.html'],
+    standalone: true,
+    module: 'Test',
+    transform: function (html, callback) {
+        html = minify(html, { removeComments: true });
+        callback(html);
+    }
+}).bundle().pipe(process.stdout);
 
 ```
 
