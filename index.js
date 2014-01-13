@@ -82,10 +82,10 @@ function Html2js (opts) {
 
             if (typeof self.opts.transform === 'function') {
                 self.opts.transform(html, function(transformedContent) {
-                    $this.emit('data', self.compileTemplate(transformedContent, data.filePath));
+                    $this.queue(self.compileTemplate(transformedContent, data.filePath));
                 });
             } else {
-                this.emit('data', self.compileTemplate(html, data.filePath));
+                this.queue(self.compileTemplate(html, data.filePath));
             }
         });
 
@@ -95,7 +95,7 @@ function Html2js (opts) {
     }, 5);
 
     this.queue.drain = function() {
-        self.output.emit('end');
+        self.output.end();
     };
 
 }
