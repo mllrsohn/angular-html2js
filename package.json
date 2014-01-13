@@ -11,7 +11,8 @@
   "dependencies": {
     "event-stream": "~3.0.20",
     "concat-stream": "~1.4.1",
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "readable-stream": "~1.1.10"
   },
   "devDependencies": {
     "html-minifier": "~0.5.4",

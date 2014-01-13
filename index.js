@@ -1,7 +1,7 @@
 var fs = require('fs');
 var es = require('event-stream');
 var Url = require('url');
-var Readable = require('stream').Readable;
+var Readable = require('stream').Readable || require('readable-stream').Readable;
 var concat = require('concat-stream');
 var path = require('path');
 var async = require('async');
@@ -82,10 +82,10 @@ function Html2js (opts) {
 
             if (typeof self.opts.transform === 'function') {
                 self.opts.transform(html, function(transformedContent) {
-                    $this.queue(self.compileTemplate(transformedContent, data.filePath));
+                    $this.emit('data', self.compileTemplate(transformedContent, data.filePath));
                 });
             } else {
-                this.queue(self.compileTemplate(html, data.filePath));
+                this.emit('data', self.compileTemplate(html, data.filePath));
             }
         });
 
@@ -95,7 +95,7 @@ function Html2js (opts) {
     }, 5);
 
     this.queue.drain = function() {
-        self.output.end();
+        self.output.emit('end');
     };
 
 }
