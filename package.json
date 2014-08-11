@@ -6,16 +6,22 @@
   "scripts": {
     "test": "tape test/*.js"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mllrsohn/angular-html2js.git"
+  },
+  "author": {
+    "name": "Steffen Müller"
+  },
   "license": "MIT",
   "dependencies": {
-    "event-stream": "~3.0.20",
-    "concat-stream": "~1.4.1",
-    "async": "~0.2.9",
-    "readable-stream": "~1.1.10"
+    "event-stream": "~3.1.7",
+    "concat-stream": "~1.4.6",
+    "async": "~0.9.0",
+    "readable-stream": "~1.0.27-1"
   },
   "devDependencies": {
-    "html-minifier": "~0.5.4",
-    "tape": "~2.3.2"
+    "html-minifier": "~0.6.6",
+    "tape": "~2.14.0"
   }
 }
