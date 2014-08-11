@@ -10,10 +10,8 @@ angular-html2js [![Build Status][travis-image]][travis-url]
 Install
 -----
 ```
-$ npm install mllrsohn/angular-html2js
+$ npm install angular-html2js
 ```
-
-*Module is not yet on npm*
 
 Usage
 -----
@@ -90,7 +88,6 @@ transform: function(html, callback) {
 
 ToDo
 -----
-- Publish on npm
 - Impement empty file
 - Impement empty result if there is no file
 - Cleanup
