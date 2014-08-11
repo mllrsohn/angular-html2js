@@ -1,6 +1,6 @@
 {
   "name": "angular-html2js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A standalone tool to stream angular templates and building the $templateCache",
   "main": "index.js",
   "scripts": {
